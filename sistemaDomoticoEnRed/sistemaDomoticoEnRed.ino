@@ -2,8 +2,15 @@
 
 const char* ssid = "INFINITUM3021_2.4";
 const char* password = "9nNxwB07ba";
+//const char* ssid = "INFINITUM733AD1";
+//const char* password = "09A510608C";
 
-int buzzer = 13; // GPIO13
+int foco = 13;     // GPIO13
+int ledRojo = 14;  // GPIO14
+int buzzer = 12;   // GPIO12
+
+const int sensorPin = 2;
+
 WiFiServer server(80);
 
 //Variables para el sensor de luminosidad
@@ -20,9 +27,14 @@ void setup() {
   Serial.begin(115200);
   delay(10);
 
+  pinMode(foco, OUTPUT);
+  pinMode(ledRojo, OUTPUT);
   pinMode(buzzer, OUTPUT);
-  //noTone(buzzer);
-  digitalWrite(buzzer,LOW);
+  pinMode(sensorPin , INPUT);
+  
+  noTone(buzzer);
+  digitalWrite(foco,LOW);
+  digitalWrite(ledRojo,LOW);
 
   // Connect to WiFi network
   Serial.println();
@@ -61,11 +73,29 @@ void loop() {
   // print out the value you read:
   Serial.print("Valor luz: ");
   Serial.println(luminosidad);                         
-
+  
   if(luminosidad < 10) {
-    //tone(buzzer,1000);
-    digitalWrite(buzzer, HIGH);
+    //tone(foco,1000);
+    digitalWrite(foco, HIGH);
   }
+
+  delay(200);
+  
+  // Sensor infrarrojo
+  int sensorInfrarrojo = 0;
+  sensorInfrarrojo = digitalRead(sensorPin);  //lectura digital de pin del infrarrojo
+
+  Serial.println(sensorInfrarrojo);
+ 
+  if (sensorInfrarrojo == LOW) {
+      //Serial.println("Detectado obstaculo");
+      digitalWrite(ledRojo, HIGH);
+      tone(buzzer,1000);
+  } else {
+    
+  }
+
+  delay(200);
   
   WiFiClient client = server.available();
   if(!client) {
@@ -91,22 +121,29 @@ void loop() {
   int value = LOW;
   
   if(request.indexOf("/LED=ON") != -1) {
-    digitalWrite(buzzer, HIGH);
-    //tone(buzzer,1000);
+    digitalWrite(foco, HIGH);
+    //tone(foco,1000);
     value = HIGH;
   }
   if(request.indexOf("/LED=OFF") != -1) {
-    digitalWrite(buzzer, LOW);
-    //noTone(buzzer);
+    digitalWrite(foco, LOW);
+    //noTone(foco);
     value = LOW;
   }
-
+  if(request.indexOf("/LEDROJO=ON") != -1) {
+    digitalWrite(ledRojo, HIGH);
+    tone(buzzer, 1000);
+  }
+  if(request.indexOf("/LEDROJO=OFF") != -1) {
+    digitalWrite(ledRojo, LOW);
+    noTone(buzzer);
+  }
   
 
 /*--- Sección página web--- */
 
-  // Set buzzer according to the request
-  // digitalWrite(buzzer, value);
+  // Set foco according to the request
+  // digitalWrite(foco, value);
 
   //Return the response
   client.println("HTTP/1.1 200 OK");
@@ -136,10 +173,10 @@ void loop() {
     client.print("Apagada");    
   }
   client.println("<br><br>");
-  client.println("<a href=\"/LED=ON\"\"><button>Prender alarma </button></a>");
-  client.println("<a href=\"/LED=OFF\"\"><button>Apagar alarma </button></a><br /> <br />");
+  client.println("<a href=\"/LEDROJO=ON\"\"><button>Prender alarma </button></a>");
+  client.println("<a href=\"/LEDROJO=OFF\"\"><button>Apagar alarma </button></a><br /> <br />");
 
-  client.print("La puerta esta: ");
+  /*client.print("La puerta esta: ");
 
   if(value == HIGH) {
     client.print("Abierta");
@@ -148,7 +185,7 @@ void loop() {
   }
   client.println("<br><br>");
   client.println("<a href=\"/LED=ON\"\"><button>Abrir puerta </button></a>");
-  client.println("<a href=\"/LED=OFF\"\"><button>Cerrar puerta </button></a><br />");
+  client.println("<a href=\"/LED=OFF\"\"><button>Cerrar puerta </button></a><br />");*/
   client.println("</html>");
   
   delay(1);
