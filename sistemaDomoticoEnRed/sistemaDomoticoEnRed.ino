@@ -126,7 +126,29 @@ void loop() {
   }
   client.println("<br><br>");
   client.println("<a href=\"/LED=ON\"\"><button>Prender foco </button></a>");
-  client.println("<a href=\"/LED=OFF\"\"><button>Apagar foco </button></a><br />");
+  client.println("<a href=\"/LED=OFF\"\"><button>Apagar foco </button></a><br /> <br />");
+
+  client.print("La alarma esta: ");
+
+  if(value == HIGH) {
+    client.print("Encendida");
+  }else {
+    client.print("Apagada");    
+  }
+  client.println("<br><br>");
+  client.println("<a href=\"/LED=ON\"\"><button>Prender alarma </button></a>");
+  client.println("<a href=\"/LED=OFF\"\"><button>Apagar alarma </button></a><br /> <br />");
+
+  client.print("La puerta esta: ");
+
+  if(value == HIGH) {
+    client.print("Abierta");
+  }else {
+    client.print("Cerrada");    
+  }
+  client.println("<br><br>");
+  client.println("<a href=\"/LED=ON\"\"><button>Abrir puerta </button></a>");
+  client.println("<a href=\"/LED=OFF\"\"><button>Cerrar puerta </button></a><br />");
   client.println("</html>");
   
   delay(1);
