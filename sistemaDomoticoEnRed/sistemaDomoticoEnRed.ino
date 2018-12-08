@@ -21,7 +21,8 @@ void setup() {
   delay(10);
 
   pinMode(buzzer, OUTPUT);
-  noTone(buzzer);
+  //noTone(buzzer);
+  digitalWrite(buzzer,LOW);
 
   // Connect to WiFi network
   Serial.println();
@@ -62,7 +63,8 @@ void loop() {
   Serial.println(luminosidad);                         
 
   if(luminosidad < 10) {
-    tone(buzzer,1000);
+    //tone(buzzer,1000);
+    digitalWrite(buzzer, HIGH);
   }
   
   WiFiClient client = server.available();
