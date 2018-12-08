@@ -3,15 +3,25 @@
 const char* ssid = "INFINITUM3021_2.4";
 const char* password = "9nNxwB07ba";
 
-int ledPin = 13; // GPIO13
+int buzzer = 13; // GPIO13
 WiFiServer server(80);
+
+//Variables para el sensor de luminosidad
+const long A = 1000;      //Resistencia en oscuridad en KΩ
+const int B = 15;         //Resistencia a la luz (10 Lux) en KΩ
+const int Rc = 10;        //Resistencia calibracion en KΩ
+const int PINLUZ = A0;    //Entrada analógica 0
+int valorAnalogicoLuz = 0;
+int valorLuminosidad = 0;
+
+boolean focoPrendidoPorFaltaDeLuz = false;
 
 void setup() {
   Serial.begin(115200);
   delay(10);
 
-  pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, LOW);
+  pinMode(buzzer, OUTPUT);
+  noTone(buzzer);
 
   // Connect to WiFi network
   Serial.println();
@@ -40,7 +50,21 @@ void setup() {
 
 }
 
-void loop() {
+void loop() {  
+  // read the input on analog pin 0:
+  int sensorValue = analogRead(A0);
+  
+  // Convert the analog reading (which goes from 0 - 1023) to a luminosidad (0 - 5V):
+  float luminosidad = sensorValue * (5.0 / 1023.0) *200;
+  
+  // print out the value you read:
+  Serial.print("Valor luz: ");
+  Serial.println(luminosidad);                         
+
+  if(luminosidad < 10) {
+    tone(buzzer,1000);
+  }
+  
   WiFiClient client = server.available();
   if(!client) {
     return;
@@ -56,21 +80,31 @@ void loop() {
   String request = client.readStringUntil('\r');
   Serial.println(request);
   client.flush();
+  
+  
+
 
   // Match the request
 
   int value = LOW;
+  
   if(request.indexOf("/LED=ON") != -1) {
-    digitalWrite(ledPin, HIGH);
+    digitalWrite(buzzer, HIGH);
+    //tone(buzzer,1000);
     value = HIGH;
   }
   if(request.indexOf("/LED=OFF") != -1) {
-    digitalWrite(ledPin, LOW);
+    digitalWrite(buzzer, LOW);
+    //noTone(buzzer);
     value = LOW;
   }
 
-  // Set ledPin according to the request
-  // digitalWrite(ledPin, value);
+  
+
+/*--- Sección página web--- */
+
+  // Set buzzer according to the request
+  // digitalWrite(buzzer, value);
 
   //Return the response
   client.println("HTTP/1.1 200 OK");
@@ -79,16 +113,18 @@ void loop() {
   client.println("<!DOCTYPE HTML>");
   client.println("<html>");
 
-  client.print("Led pin is now: ");
+  client.println("<h1>Control del sistema</h1><br>");
+  
+  client.print("La alarma esta: ");
 
   if(value == HIGH) {
-    client.print("On");
+    client.print("Encendida");
   }else {
-    client.print("Off");    
+    client.print("Apagada");    
   }
   client.println("<br><br>");
-  client.println("<a href=\"/LED=ON\"\"><button>Turn On </button></a>");
-  client.println("<a href=\"/LED=OFF\"\"><button>Turn Off </button></a><br />");
+  client.println("<a href=\"/LED=ON\"\"><button>Prender alarma </button></a>");
+  client.println("<a href=\"/LED=OFF\"\"><button>Apagar alarma </button></a><br />");
   client.println("</html>");
   
   delay(1);
