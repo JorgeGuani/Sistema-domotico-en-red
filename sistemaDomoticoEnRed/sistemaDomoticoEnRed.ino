@@ -117,16 +117,16 @@ void loop() {
 
   client.println("<h1>Control del sistema</h1><br>");
   
-  client.print("La alarma esta: ");
+  client.print("El foco esta: ");
 
   if(value == HIGH) {
-    client.print("Encendida");
+    client.print("Encendido");
   }else {
-    client.print("Apagada");    
+    client.print("Apagado");    
   }
   client.println("<br><br>");
-  client.println("<a href=\"/LED=ON\"\"><button>Prender alarma </button></a>");
-  client.println("<a href=\"/LED=OFF\"\"><button>Apagar alarma </button></a><br />");
+  client.println("<a href=\"/LED=ON\"\"><button>Prender foco </button></a>");
+  client.println("<a href=\"/LED=OFF\"\"><button>Apagar foco </button></a><br />");
   client.println("</html>");
   
   delay(1);
