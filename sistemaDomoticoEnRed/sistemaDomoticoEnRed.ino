@@ -1,9 +1,16 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "INFINITUM3021_2.4";
-const char* password = "9nNxwB07ba";
+//const char* ssid = "INFINITUM3021_2.4";
+//const char* password = "9nNxwB07ba";
+const char* ssid = "INFINITUM733AD1";
+const char* password = "09A510608C";
 
-int buzzer = 13; // GPIO13
+int foco = 13;     // GPIO13
+int ledRojo = 14;  // GPIO14
+int buzzer = 12;   // GPIO12
+
+const int sensorPin = 2;
+
 WiFiServer server(80);
 
 //Variables para el sensor de luminosidad
@@ -20,9 +27,14 @@ void setup() {
   Serial.begin(115200);
   delay(10);
 
+  pinMode(foco, OUTPUT);
+  pinMode(ledRojo, OUTPUT);
   pinMode(buzzer, OUTPUT);
-  //noTone(buzzer);
-  digitalWrite(buzzer,LOW);
+  pinMode(sensorPin , INPUT);
+  
+  noTone(buzzer);
+  digitalWrite(foco,LOW);
+  digitalWrite(ledRojo,LOW);
 
   // Connect to WiFi network
   Serial.println();
@@ -59,13 +71,30 @@ void loop() {
   float luminosidad = sensorValue * (5.0 / 1023.0) *200;
   
   // print out the value you read:
-  Serial.print("Valor luz: ");
-  Serial.println(luminosidad);                         
+  //Serial.print("Valor luz: ");
+  //Serial.println(luminosidad);                         
 
   if(luminosidad < 10) {
-    //tone(buzzer,1000);
-    digitalWrite(buzzer, HIGH);
+    //tone(foco,1000);
+    digitalWrite(foco, HIGH);
   }
+
+  // Sensor infrarrojo
+  int sensorInfrarrojo = 0;
+  sensorInfrarrojo = digitalRead(sensorPin);  //lectura digital de pin del infrarrojo
+
+  Serial.println(sensorInfrarrojo);
+ 
+  if (sensorInfrarrojo == LOW) {
+      //Serial.println("Detectado obstaculo");
+      digitalWrite(ledRojo, HIGH);
+      tone(buzzer,1000);
+  } else {
+    digitalWrite(ledRojo, LOW);
+    noTone(buzzer);
+  }
+
+  delay(500);
   
   WiFiClient client = server.available();
   if(!client) {
@@ -91,13 +120,13 @@ void loop() {
   int value = LOW;
   
   if(request.indexOf("/LED=ON") != -1) {
-    digitalWrite(buzzer, HIGH);
-    //tone(buzzer,1000);
+    digitalWrite(foco, HIGH);
+    //tone(foco,1000);
     value = HIGH;
   }
   if(request.indexOf("/LED=OFF") != -1) {
-    digitalWrite(buzzer, LOW);
-    //noTone(buzzer);
+    digitalWrite(foco, LOW);
+    //noTone(foco);
     value = LOW;
   }
 
@@ -105,8 +134,8 @@ void loop() {
 
 /*--- Sección página web--- */
 
-  // Set buzzer according to the request
-  // digitalWrite(buzzer, value);
+  // Set foco according to the request
+  // digitalWrite(foco, value);
 
   //Return the response
   client.println("HTTP/1.1 200 OK");
