@@ -163,7 +163,7 @@ void loop() {
   client.println("<!DOCTYPE HTML>");
   client.println("<html>");
 
-  client.println("<div style=padding: 0px 0px 0px 20px;>");
+  client.println("<div style=\"padding: 0px 0px 0px 20px;\">");
   client.println("<h1>Control del sistema</h1><br>");
   client.println("<a href=\"/REFRESH=ON\"\"><button>Actualizar </button></a><br /> <br />");
   
@@ -187,7 +187,7 @@ void loop() {
   }
 
   if(alarmaPorIntruso == true) {
-    client.println("<br>INTRUSO");
+    client.println("<br><span style=\"color:red\">INTRUSO!</span>");
   }
   
   client.println("<br><br>");
