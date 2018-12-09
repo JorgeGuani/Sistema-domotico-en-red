@@ -1,4 +1,5 @@
 #include <ESP8266WiFi.h>
+#include <DHT11.h>
 
 const char* ssid = "INFINITUM3021_2.4";
 const char* password = "9nNxwB07ba";
@@ -8,6 +9,7 @@ const char* password = "9nNxwB07ba";
 int foco = 13;     // GPIO13
 int ledRojo = 14;  // GPIO14
 int buzzer = 12;   // GPIO12
+int ledVerde = 5;  // GPIO5
 
 const int sensorPin = 2;
 
@@ -21,21 +23,27 @@ const int PINLUZ = A0;    //Entrada analógica 0
 int valorAnalogicoLuz = 0;
 int valorLuminosidad = 0;
 
+// Variables sensor de temperatura
+int pin = 4;
+DHT11 dht11(pin);
+
 boolean focoPrendidoPorFaltaDeLuz = false;
 boolean alarmaPorIntruso = false;
 
 void setup() {
   Serial.begin(115200);
   delay(10);
-
+  
   pinMode(foco, OUTPUT);
   pinMode(ledRojo, OUTPUT);
   pinMode(buzzer, OUTPUT);
+  pinMode(ledVerde, OUTPUT);
   pinMode(sensorPin , INPUT);
   
   noTone(buzzer);
   digitalWrite(foco,LOW);
   digitalWrite(ledRojo,LOW);
+  digitalWrite(ledVerde,LOW);
 
   // Connect to WiFi network
   Serial.println();
@@ -65,6 +73,7 @@ void setup() {
 }
 
 void loop() {  
+  // Luminosidad
   // read the input on analog pin 0:
   int sensorValue = analogRead(A0);
   
@@ -82,7 +91,8 @@ void loop() {
   }
 
   delay(200);
-  
+
+  // Infrarrojo
   // Sensor infrarrojo
   int sensorInfrarrojo = 0;
   sensorInfrarrojo = digitalRead(sensorPin);  //lectura digital de pin del infrarrojo
@@ -98,7 +108,24 @@ void loop() {
     
   }
 
-  delay(200);
+  // Temperatura
+  int err;
+  float temp, hum;
+  if((err = dht11.read(hum, temp)) == 0) { // Si devuelve 0 es que ha leido bien
+         Serial.print("Temperatura: ");
+         Serial.print(temp);
+         Serial.print(" Humedad: ");
+         Serial.print(hum);
+         Serial.println();
+      }
+   else {
+       Serial.println();
+       Serial.print("Error Num :");
+       Serial.print(err);
+       Serial.println();
+    }
+  
+  delay(1000);
   
   WiFiClient client = server.available();
   if(!client) {
