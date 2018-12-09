@@ -77,6 +77,7 @@ void loop() {
   
   if(luminosidad < 10) {
     //tone(foco,1000);
+    focoPrendidoPorFaltaDeLuz = true;
     digitalWrite(foco, HIGH);
   }
 
@@ -132,6 +133,7 @@ void loop() {
     digitalWrite(foco, LOW);
     //noTone(foco);
     value = LOW;
+    focoPrendidoPorFaltaDeLuz = false;
   }
   if(request.indexOf("/LEDROJO=ON") != -1) {
     digitalWrite(ledRojo, HIGH);
@@ -143,6 +145,9 @@ void loop() {
     noTone(buzzer);
     valueRed = LOW;
     alarmaPorIntruso = false;
+  }
+  if(request.indexOf("/REFRESH=ON") != -1) {
+    
   }
   
   
@@ -160,10 +165,11 @@ void loop() {
 
   client.println("<div style=padding: 0px 0px 0px 20px;>");
   client.println("<h1>Control del sistema</h1><br>");
+  client.println("<a href=\"/REFRESH=ON\"\"><button>Actualizar </button></a><br /> <br />");
   
   client.print("El foco esta: ");
 
-  if(value == HIGH) {
+  if(value == HIGH || focoPrendidoPorFaltaDeLuz == true) {
     client.print("Encendido");
   }else {
     client.print("Apagado");    
@@ -174,11 +180,16 @@ void loop() {
 
   client.print("La alarma esta: ");
 
-  if(valueRed == HIGH) {
+  if(valueRed == HIGH || alarmaPorIntruso == true) {
     client.print("Encendida");
   }else {
     client.print("Apagada");    
   }
+
+  if(alarmaPorIntruso == true) {
+    client.println("<br>INTRUSO");
+  }
+  
   client.println("<br><br>");
   client.println("<a href=\"/LEDROJO=ON\"\"><button>Prender alarma </button></a>");
   client.println("<a href=\"/LEDROJO=OFF\"\"><button>Apagar alarma </button></a><br /> <br />");
