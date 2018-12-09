@@ -22,6 +22,7 @@ int valorAnalogicoLuz = 0;
 int valorLuminosidad = 0;
 
 boolean focoPrendidoPorFaltaDeLuz = false;
+boolean alarmaPorIntruso = false;
 
 void setup() {
   Serial.begin(115200);
@@ -91,6 +92,7 @@ void loop() {
       //Serial.println("Detectado obstaculo");
       digitalWrite(ledRojo, HIGH);
       tone(buzzer,1000);
+      alarmaPorIntruso = true;
   } else {
     
   }
@@ -119,6 +121,7 @@ void loop() {
   // Match the request
 
   int value = LOW;
+  int valueRed = LOW;
   
   if(request.indexOf("/LED=ON") != -1) {
     digitalWrite(foco, HIGH);
@@ -133,13 +136,16 @@ void loop() {
   if(request.indexOf("/LEDROJO=ON") != -1) {
     digitalWrite(ledRojo, HIGH);
     tone(buzzer, 1000);
+    valueRed = HIGH;
   }
   if(request.indexOf("/LEDROJO=OFF") != -1) {
     digitalWrite(ledRojo, LOW);
     noTone(buzzer);
+    valueRed = LOW;
+    alarmaPorIntruso = false;
   }
   
-
+  
 /*--- Sección página web--- */
 
   // Set foco according to the request
@@ -152,6 +158,7 @@ void loop() {
   client.println("<!DOCTYPE HTML>");
   client.println("<html>");
 
+  client.println("<div style=padding: 0px 0px 0px 20px;>");
   client.println("<h1>Control del sistema</h1><br>");
   
   client.print("El foco esta: ");
@@ -167,7 +174,7 @@ void loop() {
 
   client.print("La alarma esta: ");
 
-  if(value == HIGH) {
+  if(valueRed == HIGH) {
     client.print("Encendida");
   }else {
     client.print("Apagada");    
@@ -186,6 +193,7 @@ void loop() {
   client.println("<br><br>");
   client.println("<a href=\"/LED=ON\"\"><button>Abrir puerta </button></a>");
   client.println("<a href=\"/LED=OFF\"\"><button>Cerrar puerta </button></a><br />");*/
+  client.println("</div>");
   client.println("</html>");
   
   delay(1);
