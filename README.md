@@ -1,5 +1,9 @@
 # Sistema domótico en red (WiFi)
 Consiste en un sistema de control en red basado en la plataforma Arduino mediante el módulo WiFi nodeMCU ESP8266, con la finalidad de usar un servidor web para interactuar con el sistema domótico.
+<div style="display: flex">
+<img src="imagenes/h1.jpg" width="420">
+<img src="imagenes/h3.jpg" width="420">
+</div>
 
 **Especificaciones:**
 - Incluye 3 sensores y un motor.
