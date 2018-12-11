@@ -1,5 +1,5 @@
 # Sistema domótico en red (WiFi)
-Consiste en un sistema de control en red basado en la plataforma Arduino mediante el módulo WiFi nodemcu esp8266, con la finalidad de usar un servidor web para interactuar con el sistema domótico.
+Consiste en un sistema de control en red basado en la plataforma Arduino mediante el módulo WiFi nodeMCU ESP8266, con la finalidad de usar un servidor web para interactuar con el sistema domótico.
 
 **Especificaciones:**
 - Incluye 3 sensores y un motor.
@@ -11,7 +11,7 @@ Consiste en un sistema de control en red basado en la plataforma Arduino mediant
 **Material físico**:
 ```
 -1 protoboard (2 preferentemente para una mejor distribución)
--1 módulo WiFi Nodemcu ESP8266
+-1 módulo WiFi NodeMCU ESP8266
 -Cables macho-macho, macho-hembra
 -1 Sensor infrarrojo de movimiento
 -1 Sensor DTH11 (temperatura)
@@ -32,6 +32,11 @@ Consiste en un sistema de control en red basado en la plataforma Arduino mediant
 -Darle permisos dialout al usuario del equipo para arduino (Linux)
 -Driver instalado de la placa para arduino (Otros sistemas operativos)
 ```
+## Introducción
+Se conoce como Puerto 80 al que puerto por default, por el medio del cual un servidor HTTP “escucha” la petición hecha por un cliente, es decir por una PC en específico.
+<br><br>**NodeMCU ESP8266**
+<br>El NodeMCU es el módulo más característico de este tipo. Su precio ronda los 6€. A diferencia de los otros módulos, viene con todo lo necesario para empezar a trabajar de forma autónoma. Incluye un adaptador serie/USB y se alimenta a través del microusb. Está basado en el ESP-12 y la última versión oficial es la 2. Lo más interesante de este módulo es que puedes descargar un firmware que te permite programar en lenguajes como LUA, Python, Basic o JavaScript. Sin duda alguna este módulo es la mejor opción si queremos adentrarnos en el mundo del ESP8266.
+
 ## Instalación del sistema (5 pasos) 🔧
 ## Paso 1. Armar circuito
 (Opcional) Crear una maqueta que simule la casa.
@@ -70,6 +75,7 @@ En el menú Herramientas del IDE, elige las espeficiaciones de su placa. En este
  
  **NOTA:** 
  - Se hizo uso de un botón "Actualizar" para refrescar la página dado una consecuencia de un sensor. Pues no hubo la manera de que se actualizara automáticamente la página.
+ - El módulo nodeMCU es tan eficaz que pudo reemplazar la placa arduino sin problemas (solo que tiene menos puertos de salida)
 
 
 ## Construido con 🛠️
