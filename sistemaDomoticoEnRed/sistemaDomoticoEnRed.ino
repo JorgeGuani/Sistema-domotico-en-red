@@ -10,8 +10,11 @@
 #include <DHT11.h>
 
 /* Cambie el ssid y contraseña por su red WiFi*/
-const char* ssid = "INFINITUM3021_2.4";
-const char* password = "9nNxwB07ba";
+//const char* ssid = "INFINITUM3021_2.4";
+//const char* password = "9nNxwB07ba";
+const char* ssid = "LGSpirit_3574";
+const char* password = "999123456";
+
 
 /* Puerto 80 HTTP */
 WiFiServer server(80);
