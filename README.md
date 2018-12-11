@@ -48,6 +48,8 @@ En el menú Herramientas del IDE, elige las espeficiaciones de su placa. En este
  - b) Selecciona la velocidad: 115200 Baudios
  - c) Selecciona el puerto USB que conecta el módulo WiFi con el ordenador: /dev/USB0
  
+ <img src="imagenes/espeficicaciones.png">
+ 
  ## Paso 4. Cargar el programa
  En el menú Archivo abra el programa y súbalo a su placa.
  NOTA: Asegúrese de tener todo configurado como en el paso anterior.
@@ -56,11 +58,15 @@ En el menú Herramientas del IDE, elige las espeficiaciones de su placa. En este
  Ejecute el programa, abra el monitor serial, póngalo en 115200 Baudios como velocidad y accede en su navegador a la dirección IP que muestra el módulo WiFi.
  Ahora podrá interactuar con el navegador y su casa domótica.
  
- # Servidor Web
+ ## Servidor Web
+ Esta es la página web la cual contiene botones para el control del sistema domótico. El sistema permitirá apagar o encender la alarma y/o el foco, y abrir o cerrar la puerta ventanilla la cual permitirá el paso a la ventilación.
  
  ## Resultados 📌
  - Todos los objetivos se han cumplido satisfactoriamente.
- - 
+ - Se hizo uso de 3 sensores y un actuador (motor reductor con engranajes)
+ - El sistema está conectado mediante la red WiFi
+ - El servidor uso el protocolo 80 para comunicarse con el cliente mediante la página web
+ - La página web puede controlar satisfactoriamente los dispoitivos de la casa domótica, siempre y cuando haya una buena conexión de WiFi
  
  **NOTA:** 
  - Se hizo uso de un botón "Actualizar" para refrescar la página dado una consecuencia de un sensor. Pues no hubo la manera de que se actualizara automáticamente la página.
@@ -76,7 +82,7 @@ Arduino IDE
 Fritzing
 * [Fritzing](http://fritzing.org/home/) <br/>
 
-## Probado con
+## Probado con 🛠️
 La página web ser mostró correctamente en Mozilla Firefox
 
 ## Autores ✒️
