@@ -42,6 +42,10 @@ Se conoce como Puerto 80 al que puerto por default, por el medio del cual un ser
 (Opcional) Crear una maqueta que simule la casa.
 Siga el siguiente diagrama de conexión para elaborar la funcionalidad del sistema:
 
+<img src="imagenes/SistemaDomoticoConexion.jpg" width="600">
+
+**NOTA**: Si la salida de 5v del nodeMCU no funciona con el circuito L293D, usar una alimentación externa para alimentar el L293D
+
 
 ## Paso 2. Añadir la placa ESP8266 en el Arduino IDE
 Para añadir la placa en tu IDE de Arduino necesitas seguir el tutorial (3 pasos) que se encuentra en el siguiente enlace:
