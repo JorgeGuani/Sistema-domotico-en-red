@@ -74,7 +74,23 @@ En el menú Herramientas del IDE, elige las espeficiaciones de su placa. En este
  ## Servidor Web
  Esta es la página web la cual contiene botones para el control del sistema domótico. El sistema permitirá apagar o encender la alarma y/o el foco, y abrir o cerrar la puerta ventanilla la cual permitirá el paso a la ventilación.
  
+ <img src="imagenes/servidor/c2.png" width="420">
+ 
+ Cuando suena la alarma, la página se ve de esta manera: <br><br>
+ <img src="imagenes/servidor/c3.png" width="320">
+ 
+ Cuando el foco prende, la página se ve de esta manera: <br><br>
+ <img src="imagenes/servidor/c4.png" width="320">
+ 
+ Finalmente, cuando la puerta o ventanilla de ventilación se abre, se ve de esta manera: <br><br>
+ <img src="imagenes/servidor/c5.png" width="320">
+ 
+ Todo el control se manipula desde el servidor a los dispositivos de la casa.
+ 
  ## Resultados 📌
+ 
+ <img src="imagenes/h2.jpg" width="420">
+ 
  - Todos los objetivos se han cumplido satisfactoriamente.
  - Se hizo uso de 3 sensores y un actuador (motor reductor con engranajes)
  - El sistema está conectado mediante la red WiFi
